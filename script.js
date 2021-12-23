@@ -19,10 +19,19 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 
 // Update table whenever there are changes in values in Students/orders/
-const updateRef = ref(db, 'Storage/Orders/');
+const updateRef = ref(db, 'Orders');
 onValue(updateRef, (snapshot) => {
     const data = snapshot.val();
-    setTable(data);
+    const table = document.querySelector("#table");
+    table.innerHTML = "";
+    for (const key in data) {
+        const order = data[key];
+        for (const dish in order) {
+            table.innerHTML += `| ${dish} : ${order[dish]} |`;
+        }
+        table.innerHTML += "<br>";
+    }
+    //setTable(data);
 })
 
 function setTable (data) {
