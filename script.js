@@ -33,7 +33,7 @@ onValue(updateRef, (snapshot) => {
         <th>Pick-up Time</th>
         <th>Payment</th>
         <th>Total</th>
-        <td>Note</td>
+        <th>Note</th>
         <th>Status</th>
         <th>Check</th>
     </tr>`;
