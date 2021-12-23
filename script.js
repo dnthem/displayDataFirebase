@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getDatabase, ref, set, child, get, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -16,57 +16,100 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getDatabase();
+const db = getDatabase(app);
 
 // Update table whenever there are changes in values in Students/orders/
 const updateRef = ref(db, 'Orders');
 onValue(updateRef, (snapshot) => {
+    let index = 0;
     const data = snapshot.val();
-    const table = document.querySelector("#table");
-    table.innerHTML = "";
+    const table = document.querySelector("#table-content");
+    table.innerHTML = `
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Order</th>
+        <th>Pick-up Time</th>
+        <th>Payment</th>
+        <th>Total</th>
+        <td>Note</td>
+        <th>Status</th>
+        <th>Check</th>
+    </tr>`;
     for (const key in data) {
         const order = data[key];
-        for (const dish in order) {
-            table.innerHTML += `| ${dish} : ${order[dish]} |`;
+            setTable(index, table,order, key);
+        index++;
+    }
+    
+});
+
+function setTable (index, table, order, key) {
+    let tr = document.createElement("tr");
+    let name = document.createElement("th");
+    let phone = document.createElement("th");
+    let orderInfo = document.createElement("th");
+    let pickUpTime = document.createElement("th");
+    let total = document.createElement("th");
+    let payment = document.createElement("th");
+    let status = document.createElement("th");
+    let note = document.createElement("th");
+    let check = document.createElement("th");
+    for (const key in order) {
+        switch (key){
+            case "userName":
+                name.innerText = order[key];
+                break;
+            case "userPhone":
+                phone.innerText = order[key];
+                break;
+            case "pickUpTime":
+                pickUpTime.innerText = order[key];
+                break;
+            case "total":
+                total.innerText = order[key];
+                break;
+            case "status":
+                status.innerHTML = (order[key])? "<p style='color:green;'>complete</p>" : `<p style='color:red;'>pending</p>`;
+                break;
+            case "payment":
+                payment.innerText = order[key];
+                break;
+            case "status":
+                status.innerText = order[key];
+                break;
+            case "note":
+                note.innerText = order[key];
+                break;
+            default:
+                orderInfo.innerHTML += `${key} : ${order[key]} <br>`;
         }
-        table.innerHTML += "<br>";
     }
-    //setTable(data);
-})
 
-function setTable (data) {
-    let table = document.querySelector('#table');
-    table.innerHTML = `
-   <tr>
-    <th>Name</th>
-    <th>Phone</th>
-    <th>Tron</th>
-    <th>Cuon</th>
-    <th>Trung Nuong</th>
-    <th>Total</th>
-  </tr>`;
-    for (const proptery in data) {
-        let tr = document.createElement("tr");
-        let name = document.createElement("th");
-        let phone = document.createElement("th");
-        let tron = document.createElement("th");
-        let cuon = document.createElement("th");
-        let trungNuong = document.createElement("th");
-        let total = document.createElement("th");
+    let button = document.createElement("button");
+    button.value= key;
+    button.innerText = "Finish";
+    bindEventFinish(button);
+    check.appendChild(button);
 
-        name.innerHTML = data[proptery]["userName"];
-        phone.innerHTML = data[proptery]["userPhoneNum"];
-        tron.innerHTML = data[proptery]["btTron"];
-        cuon.innerHTML = data[proptery]["btCuon"];
-        trungNuong.innerHTML = data[proptery]["trungNuong"];
-        total.innerHTML = data[proptery]["total"];
+    tr.innerHTML = `<th>${index}</th>`;
+    tr.appendChild(name);
+    tr.appendChild(phone);
+    tr.appendChild(orderInfo);
+    tr.appendChild(pickUpTime);
+    tr.appendChild(payment);
+    tr.appendChild(total);
+    tr.appendChild(note);
+    tr.appendChild(status);
+    tr.appendChild(check);
+    table.appendChild(tr);
+}
 
-        tr.appendChild(name);
-        tr.appendChild(phone);
-        tr.appendChild(tron);
-        tr.appendChild(cuon);
-        tr.appendChild(trungNuong);
-        tr.appendChild(total);
-        table.appendChild(tr);
-    }
+function bindEventFinish (button) {
+    button.addEventListener("click", () => {
+        const updates = {};
+        updates['/Orders/' + button.value + "/status" ] = true;
+        update(ref(db), updates);
+    });
 }
