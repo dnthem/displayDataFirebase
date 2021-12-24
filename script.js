@@ -91,6 +91,7 @@ function setTable (index, table, order, key) {
                 break;
             case "pickUpDate":
                 pickUpDate.innerText = order[key];
+                break;
             case "pickUpTime":
                 pickUpTime.innerText = order[key];
                 break;
