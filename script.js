@@ -20,6 +20,21 @@ const db = getDatabase(app);
 
 // Update table whenever there are changes in values in Students/orders/
 const updateRef = ref(db, 'Orders');
+let FLAG_PICK_UP_DATE = false;
+let FLAG_PICK_UP_TODAY = false;
+let DATE = "";
+
+
+function init () {
+    const flag = localStorage.getItem("Flag");
+    const flag2 = localStorage.getItem("Flag2");
+    const date = localStorage.getItem("DATE");
+    FLAG_PICK_UP_DATE = (flag == "true")? true : false;
+    FLAG_PICK_UP_TODAY = (flag2 == "true")? true : false;
+    DATE = (date != null)? date : "0";
+}
+
+window.addEventListener("load", init);
 onValue(updateRef, (snapshot) => {
     let index = 0;
     const data = snapshot.val();
@@ -47,6 +62,14 @@ onValue(updateRef, (snapshot) => {
 });
 
 function setTable (index, table, order, key) {
+    if (FLAG_PICK_UP_DATE) {
+        if (order["pickUpDate"] != DATE )
+            return;
+    } 
+    if (FLAG_PICK_UP_TODAY) {
+        if (order["pickUpDate"] != DATE)
+            return;
+    } 
     let tr = document.createElement("tr");
     let name = document.createElement("th");
     let phone = document.createElement("th");
@@ -117,4 +140,34 @@ function bindEventFinish (button) {
         updates['/Orders/' + button.value + "/status" ] = true;
         update(ref(db), updates);
     });
+}
+
+document.querySelector("#order-by-date").addEventListener("click", () => {
+    localStorage.setItem("Flag", "true");
+    localStorage.setItem("Flag2", "false");
+    localStorage.setItem("DATE",document.querySelector("#pick-up-date").value);
+    location.reload();
+});
+
+document.querySelector("#reset").addEventListener("click", () => {
+    localStorage.setItem("Flag", "false");
+    localStorage.setItem("Flag2", "false");
+    location.reload();
+})
+
+document.querySelector("#order-today").addEventListener("click", () => { 
+    localStorage.setItem("Flag", "false");
+    localStorage.setItem("Flag2", "true");
+    const today = getDate();
+    localStorage.setItem("DATE", today);
+    location.reload();
+});
+
+function getDate () {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    return yyyy + "-" + mm + "-" + dd;
 }
