@@ -30,6 +30,7 @@ onValue(updateRef, (snapshot) => {
         <th>Name</th>
         <th>Phone</th>
         <th>Order</th>
+        <th>Pick-up Date</th>
         <th>Pick-up Time</th>
         <th>Payment</th>
         <th>Total</th>
@@ -56,6 +57,7 @@ function setTable (index, table, order, key) {
     let status = document.createElement("th");
     let note = document.createElement("th");
     let check = document.createElement("th");
+    let pickUpDate = document.createElement("th");
     for (const key in order) {
         switch (key){
             case "userName":
@@ -64,6 +66,8 @@ function setTable (index, table, order, key) {
             case "userPhone":
                 phone.innerText = order[key];
                 break;
+            case "pickUpDate":
+                pickUpDate.innerText = order[key];
             case "pickUpTime":
                 pickUpTime.innerText = order[key];
                 break;
@@ -97,6 +101,7 @@ function setTable (index, table, order, key) {
     tr.appendChild(name);
     tr.appendChild(phone);
     tr.appendChild(orderInfo);
+    tr.appendChild(pickUpDate);
     tr.appendChild(pickUpTime);
     tr.appendChild(payment);
     tr.appendChild(total);
