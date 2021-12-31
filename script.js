@@ -172,9 +172,12 @@ function setTable (index, table, order, key) {
             case "note":
                 note.innerText = order[key];
                 break;
-            default:
-                orderInfo.innerHTML += `${key} : ${order[key]} <br>`;
         }
+    }
+    let orderList = order["order"];
+    for (const dish in orderList)
+    {
+        orderInfo.innerHTML +=   dish + " : "  + orderList[dish] + "<br>";
     }
 
     let button = document.createElement("button");
