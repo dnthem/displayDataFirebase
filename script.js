@@ -61,6 +61,36 @@ const menu = [
       name: "Bắp Xào",
       price: 10,
     },
+    {
+        index: 6,
+        id: "TrayTron30",
+        name: "Trây Bánh Tráng Trộn $30",
+        price: 30,
+    },
+    {
+        index: 7,
+        id: "TrayTron40",
+        name: "Trây Bánh Tráng Trộn $40",
+        price: 40,
+    },
+    {
+        index: 8,
+        id: "TrayCuon30",
+        name: "Trây Bánh Tráng Cuộn $30",
+        price: 30,
+    },
+    {
+        index: 9,
+        id: "TrayCuon40",
+        name: "Trây Bánh Tráng Cuộn $40",
+        price: 40,
+    },
+    {
+        index: 10,
+        id: "XoiXaXiu",
+        name: "Xôi Xá Xíu Lòng Gà Trứng Cút",
+        price: 12,
+    }
   ];
 
 
@@ -291,6 +321,3 @@ onValue(updateRef, (snapshot) => {
     }
     
 });
-
-
-
