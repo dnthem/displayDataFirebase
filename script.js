@@ -73,6 +73,7 @@ function setMenu() {
         label.innerText = obj.name;
         option.type = "checkbox";
         option.value = obj.index;
+        option.name = "menu";
         menuSection.appendChild(option);
         menuSection.appendChild(label);
         
@@ -93,11 +94,12 @@ function getIndices(checkBoxes) {
 function updateSetting () {
     let updateObj = {};
     let indexList = [];
-    const checkBoxes = document.querySelectorAll("input[type='checkbox']");
+    const checkBoxes = document.getElementsByName("menu");
     indexList = getIndices(checkBoxes);
-    
+    const setOn = document.querySelector("#set-order-date").checked;
     const date = document.querySelector("#set-pick-up-date").value;
     updateObj = {
+        setDate : setOn,
         date : date,
         indexList : indexList
     }
@@ -200,6 +202,7 @@ function setTable (index, table, order, key) {
     table.appendChild(tr);
 }
 
+
 function bindEventFinish (button) {
     button.addEventListener("click", () => {
         const updates = {};
@@ -216,6 +219,16 @@ function getDate () {
 
     return yyyy + "-" + mm + "-" + dd;
 }
+
+
+document.querySelector("#set-order-date").addEventListener("change", (event) => {
+    if (event.target.checked == true) {
+        document.querySelector("#set-pick-up-date").removeAttribute("disabled");
+    }
+    else{
+        document.querySelector("#set-pick-up-date").setAttribute("disabled", true);
+    }
+})
 
 document.querySelector("#setting").addEventListener("click", (event) => {
     if (event.target.innerText === "Setting") {
