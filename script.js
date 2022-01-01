@@ -93,6 +93,7 @@ const menu = [
     }
   ];
 
+let Total = 0;
 
 function setMenu() {
     const menuSection = document.getElementById("menu");
@@ -190,7 +191,8 @@ function setTable (index, table, order, key) {
                 pickUpTime.innerText = order[key];
                 break;
             case "total":
-                total.innerText = order[key];
+                total.innerText = "$" + order[key];
+                Total += parseInt(order[key]);
                 break;
             case "status":
                 status.innerHTML = (order[key])? "<p style='color:green;'>complete</p>" : `<p style='color:red;'>pending</p>`;
@@ -298,6 +300,7 @@ document.querySelector("#update-btn").onclick = updateSetting;
 window.addEventListener("load", init);
 onValue(updateRef, (snapshot) => {
     let index = 0;
+    Total = 0;
     const data = snapshot.val();
     const table = document.querySelector("#table-content");
     table.innerHTML = `
@@ -319,5 +322,5 @@ onValue(updateRef, (snapshot) => {
             setTable(index, table,order, key);
         index++;
     }
-    
+    document.querySelector("#total").innerHTML = `Total = $${Total}`;
 });

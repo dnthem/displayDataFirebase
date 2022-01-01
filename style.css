@@ -89,3 +89,7 @@ table {
   .hidden {
     display: none;
   }
+  .setting {
+    position: absolute;
+    left: 45%;
+  }
