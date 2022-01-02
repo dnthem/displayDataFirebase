@@ -96,7 +96,13 @@ const menu = [
     id: "NemChua",
     name: "Nem Chua Bò (1lb)",
     price: 17
-  }
+  },
+    {
+        index: 12,
+        id: "SuaBap",
+        name: "Sữa Bắp",
+        price: 7,
+    }
   ];
 
 let Total = 0;
