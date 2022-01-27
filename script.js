@@ -90,7 +90,19 @@ const menu = [
         id: "XoiXaXiu",
         name: "Xôi Xá Xíu Lòng Gà Trứng Cút",
         price: 12,
-    }
+    },
+    {
+        index: 11,
+        id: "XoiGacCaChep",
+        name: "Xôi Gấc Cá Chép",
+        price: 6,
+      },
+      {
+        index: 12,
+        id: "XoiGacHoaSen",
+        name: "Xôi Gấc Hoa Sen",
+        price: 12,
+      }
   ];
 
 let Total = 0;
