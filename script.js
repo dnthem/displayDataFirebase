@@ -7,6 +7,8 @@ import {
   update,
   set,
 } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app-check.js";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -23,6 +25,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider('6LcwpHggAAAAAPUXwJOXP15cZA6l5lmEH9KKrh6D'),
+  isTokenAutoRefreshEnabled: true
+});
 
 // Update table whenever there are changes in values in Students/orders/
 const updateRef = ref(db, "Orders");
