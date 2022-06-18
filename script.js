@@ -1,12 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import {
-  getDatabase,
-  ref,
-  onValue,
-  update,
-  set,
-} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+import { getDatabase, ref, onValue, update, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app-check.js";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -224,7 +218,7 @@ function setTable(index, table, order, key) {
         break;
       case "total":
         total.innerText = "$" + order[key];
-        Total += parseInt(order[key]);
+        Total += parseInt(order[key].slice(1));
         break;
       case "status":
         status.innerHTML = order[key]
@@ -331,6 +325,7 @@ document.querySelector("#order-today").addEventListener("click", () => {
 
 document.querySelector("#update-btn").onclick = updateSetting;
 window.addEventListener("load", init);
+
 onValue(updateRef, (snapshot) => {
   let index = 0;
   Total = 0;
